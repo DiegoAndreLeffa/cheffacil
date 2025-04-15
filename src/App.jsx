@@ -55,6 +55,11 @@ const responsive = {
       ${css(...args)}
     }
   `,
+  laptop2: (...args) => css`
+    @media (max-width: 1444px) {
+      ${css(...args)}
+    }
+  `,
 };
 
 const Header = styled.header`
@@ -69,6 +74,7 @@ const Header = styled.header`
   flex-direction: column;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  flex-wrap: nowrap;
 
   ${responsive.laptop`
     padding: 1rem 1.5rem;
@@ -90,7 +96,7 @@ const ThemeToggle = styled.button`
 `;
 
 const Hero = styled.section`
-  padding: 4rem 1.5rem;
+  padding: 4rem 1.5rem 4rem 1.5rem;
   text-align: center;
   background: ${({ theme }) =>
     theme.background === "#fcfcfc"
@@ -98,12 +104,22 @@ const Hero = styled.section`
       : `linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(30, 42, 46, 0.8)), url("https://img.freepik.com/vetores-gratis/ilustracao-do-conceito-de-masterclass-de-chef_114360-24637.jpg?t=st=1744306829~exp=1744310429~hmac=4c74a07b96ae77fbebcf216e72a3d36f9e056e01761e90669668a35deb745efd&w=996") no-repeat center center`};
   background-size: cover;
 
-  ${responsive.mobile`
+  ${responsive.laptop2`
     padding: 3rem 1rem;
-    margin-top: 80px;
+    margin-top: 125px;
   `}
 
-  ${responsive.tablet`
+  ${responsive.laptop`
+    padding: 3rem 1rem;
+    margin-top: 90px;
+    `}
+
+${responsive.tablet`
+    padding: 3rem 1rem;
+    margin-top: 80px;
+`}
+
+  ${responsive.mobile`
     padding: 3rem 1rem;
     margin-top: 80px;
   `}
@@ -114,6 +130,9 @@ const Title = styled.h2`
   color: ${({ theme }) => theme.accent};
 
   ${responsive.mobile`
+    font-size: 1.8rem;
+  `}
+  ${responsive.laptop`
     font-size: 1.8rem;
   `}
 `;
@@ -196,10 +215,13 @@ const Footer = styled.footer`
 const Page = styled.div``;
 
 const HeaderTop = styled.div`
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  ${responsive.mobile`
+    width: 100%;
+  `}
 `;
 
 const MenuToggle = styled.button`
@@ -219,6 +241,7 @@ const Nav = styled.nav`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
   margin-top: 1rem;
 
