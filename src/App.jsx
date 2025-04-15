@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import styled, {
+  createGlobalStyle,
+  ThemeProvider,
+  css,
+} from "styled-components";
 
 const lightTheme = {
   background: "#fcfcfc",
@@ -35,18 +39,40 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Page = styled.div``;
+const responsive = {
+  mobile: (...args) => css`
+    @media (max-width: 480px) {
+      ${css(...args)}
+    }
+  `,
+  tablet: (...args) => css`
+    @media (max-width: 768px) {
+      ${css(...args)}
+    }
+  `,
+  laptop: (...args) => css`
+    @media (max-width: 1024px) {
+      ${css(...args)}
+    }
+  `,
+};
 
 const Header = styled.header`
-  position: sticky;
+  position: absolute;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
   background: ${({ theme }) => theme.header};
-  padding: 2rem 4rem;
+  padding: 1.5rem 2rem;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  ${responsive.laptop`
+    padding: 1rem 1.5rem;
+  `}
 `;
 
 const Logo = styled.h1`
@@ -55,21 +81,7 @@ const Logo = styled.h1`
   font-weight: 700;
 `;
 
-const Nav = styled.nav`
-  a {
-    margin-left: 2rem;
-    color: ${({ theme }) => theme.text};
-    text-decoration: none;
-    font-weight: 500;
-    transition: 0.3s;
-    &:hover {
-      color: ${({ theme }) => theme.accent};
-    }
-  }
-`;
-
 const ThemeToggle = styled.button`
-  margin-left: 2rem;
   background: none;
   border: none;
   color: ${({ theme }) => theme.accent};
@@ -78,27 +90,44 @@ const ThemeToggle = styled.button`
 `;
 
 const Hero = styled.section`
-  padding: 6rem 2rem;
+  padding: 4rem 1.5rem;
   text-align: center;
   background: ${({ theme }) =>
     theme.background === "#fcfcfc"
       ? `linear-gradient(180deg, rgba(255, 255, 255, 0.45), rgba(250, 250, 250, 0.61)), url("https://img.freepik.com/vetores-gratis/ilustracao-do-conceito-de-masterclass-de-chef_114360-24637.jpg?t=st=1744306829~exp=1744310429~hmac=4c74a07b96ae77fbebcf216e72a3d36f9e056e01761e90669668a35deb745efd&w=996") no-repeat center center`
       : `linear-gradient(180deg, rgba(0, 0, 0, 0.6), rgba(30, 42, 46, 0.8)), url("https://img.freepik.com/vetores-gratis/ilustracao-do-conceito-de-masterclass-de-chef_114360-24637.jpg?t=st=1744306829~exp=1744310429~hmac=4c74a07b96ae77fbebcf216e72a3d36f9e056e01761e90669668a35deb745efd&w=996") no-repeat center center`};
   background-size: cover;
+
+  ${responsive.mobile`
+    padding: 3rem 1rem;
+    margin-top: 80px;
+  `}
+
+  ${responsive.tablet`
+    padding: 3rem 1rem;
+    margin-top: 80px;
+  `}
 `;
 
 const Title = styled.h2`
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: ${({ theme }) => theme.accent};
+
+  ${responsive.mobile`
+    font-size: 1.8rem;
+  `}
 `;
 
 const Subtitle = styled.p`
   margin-top: 1rem;
-  font-size: 1.2rem;
-  color: ${({ theme }) => theme.text};
-  max-width: 640px;
+  font-size: 1.1rem;
+  max-width: 90%;
   margin-left: auto;
   margin-right: auto;
+
+  ${responsive.mobile`
+    font-size: 1rem;
+  `}
 `;
 
 const CTAButton = styled.a`
@@ -133,7 +162,11 @@ const SectionTitle = styled.h3`
 const Features = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
+
+  ${responsive.mobile`
+    grid-template-columns: 1fr;
+  `}
 `;
 
 const FeatureCard = styled.div`
@@ -150,14 +183,70 @@ const FeatureCard = styled.div`
 
 const Footer = styled.footer`
   text-align: center;
-  padding: 2rem;
+  padding: 2rem 1rem;
   background: ${({ theme }) => theme.footer};
   font-size: 0.9rem;
   color: #aaa;
+
+  ${responsive.mobile`
+    font-size: 0.8rem;
+  `}
+`;
+
+const Page = styled.div``;
+
+const HeaderTop = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const MenuToggle = styled.button`
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: ${({ theme }) => theme.accent};
+  display: none;
+  cursor: pointer;
+
+  ${responsive.laptop`
+    display: block;
+  `}
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+
+  a {
+    color: ${({ theme }) => theme.text};
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+
+    &:hover {
+      color: ${({ theme }) => theme.accent};
+    }
+  }
+
+  ${responsive.laptop`
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    max-height: ${({ $isOpen }) => ($isOpen ? "500px" : "0")};
+    transition: max-height 0.3s ease-in-out;
+  `}
 `;
 
 export default function ChefFacilLanding() {
   const [darkMode, setDarkMode] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const theme = darkMode ? darkTheme : lightTheme;
 
   return (
@@ -165,8 +254,14 @@ export default function ChefFacilLanding() {
       <GlobalStyle />
       <Page>
         <Header>
-          <Logo>ChefFácil</Logo>
-          <Nav>
+          <HeaderTop>
+            <Logo>ChefFácil</Logo>
+            <MenuToggle onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              ☰
+            </MenuToggle>
+          </HeaderTop>
+
+          <Nav $isOpen={isMenuOpen}>
             <a href="#comeceagora">Comece agora</a>
             <a href="#funcionalidades">Funcionalidades</a>
             <a href="#beneficios">Benefícios</a>
@@ -187,7 +282,9 @@ export default function ChefFacilLanding() {
             com o que você tem em casa, crie cardápios personalizados e organize
             sua lista de compras em poucos cliques.
           </Subtitle>
-          <CTAButton id="comeceagora" href="#contato">Comece agora — é grátis</CTAButton>
+          <CTAButton id="comeceagora" href="#contato">
+            Comece agora — é grátis
+          </CTAButton>
         </Hero>
 
         <Section id="funcionalidades">
